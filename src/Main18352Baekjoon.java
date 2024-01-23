@@ -7,6 +7,7 @@ public class Main18352Baekjoon {
     static ArrayList<Integer>[] arrayList;
     static boolean[] visited;
     static List<Integer> index;
+    static int[] distance;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,6 +18,7 @@ public class Main18352Baekjoon {
         int x = Integer.parseInt(st.nextToken()); // 출발지점
         visited = new boolean[n + 1];
         index = new ArrayList<>();
+        distance = new int[n + 1];
         arrayList = new ArrayList[n + 1];
         for (int i = 0; i < arrayList.length; i++) {
             arrayList[i] = new ArrayList<>();
@@ -25,9 +27,7 @@ public class Main18352Baekjoon {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-            arrayList[a].add(b);
-            arrayList[b].add(a);
-        }
+            arrayList[a].add(b);}
         for (int i = 0; i < arrayList.length; i++) {
             Collections.sort(arrayList[i]);
         }
@@ -35,29 +35,16 @@ public class Main18352Baekjoon {
     }
 
     public static void bfs(int x, int k) {
-        int length = 0;
-        int cal = 0;
-        boolean ty = false;
         Queue<Integer> q = new LinkedList<>();
         q.add(x);
         visited[x] = true;
+        distance[x] = 0;
         while (!q.isEmpty()) {
             int v = q.poll();
-            length++;
-            if (length > k && !ty && length >= 3) {
-                cal = arrayList[v - 1].size() - 1;
-                ty = true;
-            }
-            while (true) {
-                if (cal != 0) {
-                    cal--;
-                    length--;
-                }
-                break;
-            }
             for (int i : arrayList[v]) {
                 if (!visited[i]) {
-                    if (length == k) {
+                    distance[i] = distance[v] + 1;
+                    if(distance[i] == k){
                         index.add(i);
                     }
                     q.add(i);
