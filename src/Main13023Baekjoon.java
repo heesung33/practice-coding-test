@@ -7,7 +7,7 @@ public class Main13023Baekjoon {
     static int[] distance;
     static boolean[] visited;
     static ArrayList<Integer>[] arr;
-
+    static int result = 0;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -25,14 +25,12 @@ public class Main13023Baekjoon {
             arr[a].add(b);
             arr[b].add(a);
         }
-        int result = 0;
+
         for(int i = 0; i <=n; i++) {
             visited = new boolean[n + 1];
             distance = new int[n + 1];
             dfs(i);
-            Arrays.sort(distance);
-            if(distance[distance.length - 1] >= 4) {
-                result = 1;
+            if(result == 1) {
                 break;
             }
         }
@@ -46,9 +44,14 @@ public class Main13023Baekjoon {
         for(int i : arr[x]) {
             if(!visited[i]) {
                 distance[i] = distance[x] + 1;
+                if(distance[i] >=4) {
+                    result = 1;
+                    break;
+                }
                 dfs(i);
             }
         }
+        visited[x] = false;
     }
 
 //    public static void bfs(int x) {
